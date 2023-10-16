@@ -11,13 +11,18 @@ import { StyleSheet, View } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegisterScreen from './screens/RegisterScreen';
+import useAuth from './Hooks/useAuth';
+import { auth } from './firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
 
 SplashScreen.preventAutoHideAsync()
 const Tab= createBottomTabNavigator()
 const Stack= createNativeStackNavigator()
 
 export default function App(){
-  const [user,setUser]=useState<string | null>(null)
+  const [user,setUser]=useState<any>(null)
+  const [isLoading,setIsLoading]=useState(true)
+  
 
   const [fontsLoaded]=useFonts({
     'poppins-light':require("./assets/fonts/Poppins-ExtraLight.ttf"),

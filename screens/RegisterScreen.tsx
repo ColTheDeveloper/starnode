@@ -1,4 +1,6 @@
+import { useState } from "react"
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+
 
 type signupProps={
     navigation:{
@@ -7,6 +9,45 @@ type signupProps={
 }
 
 const RegisterScreen=({navigation}:signupProps)=>{
+    const [isLoading,setIsLoading]=useState(false)
+    const [email,setEmail]=useState("")
+    const [password,setPassword]=useState("")
+    const [fullName,setFullName]=useState("")
+    const [username,setUsername]=useState("")
+    
+
+
+    const handleSignup=async()=>{
+        setIsLoading(true)
+        const signupRequest={
+            query:`
+                mutation{
+                    signup(signupInput:{email:"${email}" fullName:"${fullName}" password:"${password}" username:"${username}"}){
+                        userId
+                        token
+                        exp
+                    }
+                }
+            `
+        }
+        fetch("10.0.2.2:3400/graphql",{
+            method:"POST",
+            body:JSON.stringify(signupRequest),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(res=>{
+            if(res.status !==200 && res.status !==201){
+                throw new Error("Failed") 
+            }
+            console.log(res.json())
+
+        }).then(resData=>{
+            console.log(resData)
+        }).catch(err=>{
+            console.log(err.message)
+        })
+    }
     return(
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -20,27 +61,27 @@ const RegisterScreen=({navigation}:signupProps)=>{
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Sign up with email address</Text>
                 <TextInput
-                    onChangeText={value=>value}
+                    onChangeText={value=>setFullName(value)}
+                    placeholder="Enter your full name"
+                    style={styles.inputStyles}
+                    />
+                <TextInput 
+                    onChangeText={value=>setUsername(value)}
+                    placeholder="Enter your username"
+                    style={styles.inputStyles}
+                    />
+                <TextInput 
+                    onChangeText={value=>setEmail(value)}
                     placeholder="Enter your email address"
                     style={styles.inputStyles}
                 />
                 <TextInput 
-                    onChangeText={value=>value}
-                    placeholder="Enter your first name"
-                    style={styles.inputStyles}
-                />
-                <TextInput 
-                    onChangeText={value=>value}
-                    placeholder="Enter your last name"
-                    style={styles.inputStyles}
-                />
-                <TextInput 
-                    onChangeText={value=>value}
+                    onChangeText={value=>setPassword(value)}
                     placeholder="Enter your password"
                     style={styles.inputStyles}
                     secureTextEntry
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>handleSignup()}>
                     <Text style={styles.button}>Sign up</Text>
                 </TouchableOpacity>
             </View>

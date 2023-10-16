@@ -1,5 +1,8 @@
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
-import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { auth } from "../firebaseConfig"
+
 
 type loginprops={
     navigation:{
@@ -9,8 +12,24 @@ type loginprops={
 
 const LoginScreen=({navigation}:loginprops)=>{
     const [isLoading,setIsLoading]=useState(false)
+    const [email,setEmail]=useState("")
+    const [password,setPassword]=useState("")
+    //const auth=getAuth()
+
+    const handleSignin=async()=>{
+        setIsLoading(true)
+        try {
+            const {user}=await signInWithEmailAndPassword(auth,email,password)
+            console.log(user)
+            setIsLoading(false)
+        } catch (error:any) {
+            console.log(error.code)
+            console.log(error.message)
+        }
+
+    }
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image 
                     source={require("../assets/Login.png")}
@@ -57,7 +76,7 @@ const LoginScreen=({navigation}:loginprops)=>{
                 <TouchableOpacity onPress={()=>navigation.navigate("signup")}><Text style={styles.registerContainerText2}>Create One</Text></TouchableOpacity>
             </View>
 
-        </View>
+        </ScrollView>
     )
 }
 
