@@ -1,5 +1,8 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from "../context/AuthContext"
+//import { AuthState } from "../context/AuthContext"
 
 
 type signupProps={
@@ -14,6 +17,7 @@ const RegisterScreen=({navigation}:signupProps)=>{
     const [password,setPassword]=useState("")
     const [fullName,setFullName]=useState("")
     const [username,setUsername]=useState("")
+    const AuthState=useContext(AuthContext)
     
 
 
@@ -23,30 +27,42 @@ const RegisterScreen=({navigation}:signupProps)=>{
             query:`
                 mutation{
                     signup(signupInput:{email:"${email}" fullName:"${fullName}" password:"${password}" username:"${username}"}){
-                        userId
+                        user{
+                            _id
+                            email
+                            fullName
+                            profilePics
+                            username
+                        }
                         token
                         exp
                     }
                 }
             `
         }
-        fetch("10.0.2.2:3400/graphql",{
+        
+        fetch("https://starnode-2bdi.onrender.com/graphql",{
             method:"POST",
             body:JSON.stringify(signupRequest),
             headers:{
                 "Content-Type":"application/json"
             }
         }).then(res=>{
+            console.log(res.status)
             if(res.status !==200 && res.status !==201){
                 throw new Error("Failed") 
             }
-            console.log(res.json())
-
+            return res.json()
         }).then(resData=>{
-            console.log(resData)
-        }).catch(err=>{
-            console.log(err.message)
+            AuthState?.setToken(resData.data.signup.token)
+            AuthState?.setUser(resData.data.signup.user)
+            AsyncStorage.setItem('token',resData.data.signup.token)
+            AsyncStorage.setItem('user',JSON.stringify(resData.data.signup.user))
+        }).catch(e=>{
+            console.log(e.message)
         })
+
+
     }
     return(
         <View style={styles.container}>

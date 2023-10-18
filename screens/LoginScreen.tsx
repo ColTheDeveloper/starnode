@@ -1,7 +1,8 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
-import { auth } from "../firebaseConfig"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from "../context/AuthContext";
 
 
 type loginprops={
@@ -14,18 +15,48 @@ const LoginScreen=({navigation}:loginprops)=>{
     const [isLoading,setIsLoading]=useState(false)
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
-    //const auth=getAuth()
+    const AuthState=useContext(AuthContext)
+    
 
-    const handleSignin=async()=>{
+    const handleSignin=()=>{
         setIsLoading(true)
-        try {
-            const {user}=await signInWithEmailAndPassword(auth,email,password)
-            console.log(user)
-            setIsLoading(false)
-        } catch (error:any) {
-            console.log(error.code)
-            console.log(error.message)
+        console.log(email , password)
+        const signinRequest={
+            query:`
+                query{
+                    signin(email:"${email}" password:"${password}"){
+                        user{
+                            _id
+                            email
+                            fullName
+                            profilePics
+                            username
+                        }
+                        token
+                        exp
+                    }
+                }
+            `
         }
+        fetch("https://starnode-2bdi.onrender.com/graphql",{
+            method:"POST",
+            body:JSON.stringify(signinRequest),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(res=>{
+            if(res.status !==200 && res.status !==201){
+                throw new Error("Failed") 
+            }
+            return res.json()
+        }).then(resData=>{
+            AuthState?.setToken(resData.data.signin.token)
+            AuthState?.setUser(resData.data.signin.user)
+            AsyncStorage.setItem('token',resData.data.signin.token)
+            AsyncStorage.setItem('user',JSON.stringify(resData.data.signin.user))
+        }).catch(e=>{
+            console.log(e.message)
+        })
 
     }
     return(
@@ -44,17 +75,17 @@ const LoginScreen=({navigation}:loginprops)=>{
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Sign in with email address</Text>
                 <TextInput 
-                    onChangeText={value=>value}
+                    onChangeText={value=>setEmail(value)}
                     placeholder="Enter your email address"
                     style={styles.inputStyles}
                 />
                 <TextInput 
-                    onChangeText={value=>value}
+                    onChangeText={value=>setPassword(value)}
                     placeholder="Enter your password"
                     style={styles.inputStyles}
                     secureTextEntry
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>handleSignin()}>
                     <Text style={styles.button}>Sign in</Text>
                 </TouchableOpacity>
             </View>
