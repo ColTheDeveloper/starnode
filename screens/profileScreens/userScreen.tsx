@@ -35,24 +35,24 @@ const UserScreen=({navigation}:navigationProps)=>{
             <View >
                 <Text style={styles.header}>My Socials</Text>
                 <View style={styles.socialContainer}>
-                    <View style={styles.socialIcon}>
-                        <AntDesign name="github" size={25} />
-                    </View>
+                    <TouchableOpacity style={styles.socialIcon}>
+                        <AntDesign name="github" size={20} />
+                    </TouchableOpacity>
 
-                    <View style={styles.socialIcon}>
-                        <AntDesign name="facebook-square" size={25} /> 
-                    </View>
+                    <TouchableOpacity style={styles.socialIcon}>
+                        <AntDesign name="facebook-square" size={20} /> 
+                    </TouchableOpacity>
 
-                    <View style={styles.socialIcon}>
-                        <AntDesign name="twitter" size={25} />
-                    </View>
+                    <TouchableOpacity style={styles.socialIcon}>
+                        <AntDesign name="twitter" size={20} />
+                    </TouchableOpacity>
 
-                    <View style={styles.socialIcon}>
-                        <AntDesign name="linkedin-square" size={25} />
-                    </View>
-                    <View style={styles.socialIcon}>
-                        <AntDesign name="youtube" size={25} />
-                    </View>
+                    <TouchableOpacity style={styles.socialIcon}>
+                        <AntDesign name="linkedin-square" size={20} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.socialIcon}>
+                        <AntDesign name="youtube" size={20} />
+                    </TouchableOpacity>
                 </View>
             </View>
             
@@ -117,8 +117,10 @@ const styles=StyleSheet.create({
         justifyContent:"space-between",
     },
     socialIcon:{
-        padding:20,
+        padding:15,
         borderWidth:1,
-        borderRadius:50,        
-    }
+        borderRadius:50,
+        borderColor:"#e9ecef",        
+    },
+
 })
