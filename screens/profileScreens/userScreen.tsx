@@ -22,7 +22,7 @@ const UserScreen=({navigation}:navigationProps)=>{
                     style={styles.profileImage} 
                 />
                 <Text style={styles.fullName}>{user?.fullName}</Text>
-                <Text style={styles.username}>@{user?.username}</Text>
+                <Text style={styles.username}>{user?.profileTagline}</Text>
                 <TouchableOpacity style={styles.editBtn} onPress={()=>navigation.navigate("Edit Profile")}>
                     <EvilIcons name="pencil" size={20} color={"white"} />
                     <Text style={styles.editBtnText}>Edit Profile</Text>
@@ -30,29 +30,37 @@ const UserScreen=({navigation}:navigationProps)=>{
             </View>
             <View style={styles.aboutContainer}>
                 <Text style={styles.header}>About me</Text>
-                <Text>{user?.fullName}</Text>
+                <Text style={styles.aboutText}>{user?.about}</Text>
             </View>
             <View >
                 <Text style={styles.header}>My Socials</Text>
                 <View style={styles.socialContainer}>
-                    <TouchableOpacity style={styles.socialIcon}>
-                        <AntDesign name="github" size={20} />
-                    </TouchableOpacity>
+                    {user?.githubUrl &&
+                        <TouchableOpacity style={styles.socialIcon}>
+                            <AntDesign name="github" size={20} />
+                        </TouchableOpacity>
+                    }
+                    {user?.facebookUrl &&
+                        <TouchableOpacity style={styles.socialIcon}>
+                            <AntDesign name="facebook-square" size={20} /> 
+                        </TouchableOpacity>
+                    }
 
-                    <TouchableOpacity style={styles.socialIcon}>
-                        <AntDesign name="facebook-square" size={20} /> 
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.socialIcon}>
-                        <AntDesign name="twitter" size={20} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.socialIcon}>
-                        <AntDesign name="linkedin-square" size={20} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialIcon}>
-                        <AntDesign name="youtube" size={20} />
-                    </TouchableOpacity>
+                    {user?.twitterUrl &&
+                        <TouchableOpacity style={styles.socialIcon}>
+                            <AntDesign name="twitter" size={20} />
+                        </TouchableOpacity>
+                    }
+                    {user?.linkedinUrl &&
+                        <TouchableOpacity style={styles.socialIcon}>
+                            <AntDesign name="linkedin-square" size={20} />
+                        </TouchableOpacity>
+                    }
+                    {user?.youtubeUrl &&
+                        <TouchableOpacity style={styles.socialIcon}>
+                            <AntDesign name="youtube" size={20} />
+                        </TouchableOpacity>
+                    }
                 </View>
             </View>
             
@@ -107,14 +115,18 @@ const styles=StyleSheet.create({
     aboutContainer:{
         marginVertical:25
     },
+    aboutText:{
+        fontFamily:"poppins",
+        fontSize:16
+    },
     header:{
         fontFamily:"poppins-bold",
         fontSize:20,
-        marginBottom:20
+        marginBottom:15
     },
     socialContainer:{
         flexDirection:"row",
-        justifyContent:"space-between",
+        justifyContent:"space-evenly",
     },
     socialIcon:{
         padding:15,

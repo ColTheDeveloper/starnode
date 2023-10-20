@@ -15,11 +15,18 @@ type AuthContextType={
 }
 
 type User={
-    _id:String
-    email:String
-    fullName:String
-    username:String
-    profilePics:any
+    _id:string
+    email:string
+    fullName:string
+    username:string
+    profilePics:string
+    about:string
+    profileTagline:string
+    facebookUrl:string
+    githubUrl:string
+    linkedinUrl:string
+    youtubeUrl:string
+    twitterUrl:string
 
 }
 

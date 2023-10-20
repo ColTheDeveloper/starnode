@@ -31,6 +31,13 @@ const LoginScreen=({navigation}:loginprops)=>{
                             fullName
                             profilePics
                             username
+                            about
+                            profileTagline
+                            facebookUrl
+                            githubUrl
+                            linkedinUrl
+                            youtubeUrl
+                            twitterUrl
                         }
                         token
                         exp

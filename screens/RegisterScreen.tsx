@@ -33,6 +33,13 @@ const RegisterScreen=({navigation}:signupProps)=>{
                             fullName
                             profilePics
                             username
+                            about
+                            profileTagline
+                            facebookUrl
+                            githubUrl
+                            linkedinUrl
+                            youtubeUrl
+                            twitterUrl
                         }
                         token
                         exp
