@@ -47,20 +47,39 @@ const ProfileEdit=({navigation}:navigationProps)=>{
         if (!result.canceled) {
             const uri=result.assets[0].uri
             const base64=result.assets[0].base64
-            const source = {
-                uri,
-                base64
-            }
-          setImage(source);
+            // const source = {
+            //     uri,
+            //     base64
+            // }
+            
+            const uriArr = uri.split('.');
+            const fileType = uriArr[uriArr.length - 1]
+            const file = `data:${fileType};base64,${base64}`
+
+
+            const imageData= new FormData()
+            imageData.append("file",file)
+            imageData.append("upload_preset","starnode")
+            imageData.append("cloud_name","djlvd6m7k")
+            fetch("https://api.cloudinary.com/v1_1/djlvd6m7k/upload",{
+                method:"POST",
+                body:imageData,
+            }).then(res=>res.json()).then(data=>{
+                setprofilePics(data.secure_url)
+            }).catch(err=>{
+                console.log(err.message)
+            })
+            
         }
+
     };
 
     const updateUser=()=>{
         console.log(AuthState?.token)
         console.log("called");
 
-        
-        
+        console.log("lets go")
+
         const updateRequest={
             query:`
                 mutation{
@@ -86,28 +105,6 @@ const ProfileEdit=({navigation}:navigationProps)=>{
             `
         }
 
-        if(image){
-            const uriArr = image.uri.split('.');
-            const fileType = uriArr[uriArr.length - 1]
-            const file = `data:${fileType};base64,${image.base64}`
-
-
-            const imageData= new FormData()
-            imageData.append("file",file)
-            imageData.append("upload_preset","starnode")
-            imageData.append("cloud_name","djlvd6m7k")
-            fetch("https://api.cloudinary.com/v1_1/djlvd6m7k/upload",{
-                method:"POST",
-                body:imageData,
-            }).then(res=>res.json()).then(data=>{
-                setprofilePics(data.secure_url)
-            }).catch(err=>{
-                console.log(err.message)
-            })
-        }
-        console.log("lets go")
-
-
         fetch("https://starnode-2bdi.onrender.com/graphql",{
             method:"POST",
             body:JSON.stringify(updateRequest),
@@ -124,6 +121,7 @@ const ProfileEdit=({navigation}:navigationProps)=>{
         }).then(resData=>{
             AuthState?.setToken(resData.data.editUser.token)
             AuthState?.setUser(resData.data.editUser.user)
+            console.log(resData.data.editUser.user)
             AsyncStorage.setItem('token',resData.data.editUser.token)
             AsyncStorage.setItem('user',JSON.stringify(resData.data.editUser.user))
             navigation.navigate("Profile")
@@ -136,7 +134,7 @@ const ProfileEdit=({navigation}:navigationProps)=>{
         <ScrollView style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image
-                    source={image?{uri:image.uri}:{uri:user?.profilePics}}
+                    source={{uri:profilePics}}
                     style={styles.imageStyle} 
                 />
                 <TouchableOpacity onPress={()=>pickImage()} style={styles.overlayIcon}>
@@ -163,7 +161,7 @@ const ProfileEdit=({navigation}:navigationProps)=>{
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Profile Tagline</Text>
                             <TextInput 
-                                value={user?.profileTagline}
+                                value={profileTagline}
                                 style={styles.inputStyle}
                                 onChangeText={(value)=>setProfileTagline(value)}
                             />

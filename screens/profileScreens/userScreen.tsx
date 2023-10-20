@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { AuthContext } from "../../context/AuthContext"
 import EvilIcons from "@expo/vector-icons/EvilIcons"
 import AntDesign from "@expo/vector-icons/AntDesign"
@@ -14,6 +14,10 @@ type navigationProps={
 const UserScreen=({navigation}:navigationProps)=>{
     const AuthState=useContext(AuthContext)
     const user=AuthState?.user
+
+    const handleSocialPress=async(url:string)=>{
+        await Linking.openURL(url)
+    }
     return(
         <ScrollView style={styles.container}>
             <View style={styles.profileContainer}>
@@ -36,28 +40,28 @@ const UserScreen=({navigation}:navigationProps)=>{
                 <Text style={styles.header}>My Socials</Text>
                 <View style={styles.socialContainer}>
                     {user?.githubUrl &&
-                        <TouchableOpacity style={styles.socialIcon}>
+                        <TouchableOpacity onPress={()=>handleSocialPress(user?.githubUrl)} style={styles.socialIcon}>
                             <AntDesign name="github" size={20} />
                         </TouchableOpacity>
                     }
                     {user?.facebookUrl &&
-                        <TouchableOpacity style={styles.socialIcon}>
+                        <TouchableOpacity onPress={()=>handleSocialPress(user?.facebookUrl)} style={styles.socialIcon}>
                             <AntDesign name="facebook-square" size={20} /> 
                         </TouchableOpacity>
                     }
 
                     {user?.twitterUrl &&
-                        <TouchableOpacity style={styles.socialIcon}>
+                        <TouchableOpacity onPress={()=>handleSocialPress(user?.twitterUrl)} style={styles.socialIcon}>
                             <AntDesign name="twitter" size={20} />
                         </TouchableOpacity>
                     }
                     {user?.linkedinUrl &&
-                        <TouchableOpacity style={styles.socialIcon}>
+                        <TouchableOpacity onPress={()=>handleSocialPress(user?.linkedinUrl)} style={styles.socialIcon}>
                             <AntDesign name="linkedin-square" size={20} />
                         </TouchableOpacity>
                     }
                     {user?.youtubeUrl &&
-                        <TouchableOpacity style={styles.socialIcon}>
+                        <TouchableOpacity onPress={()=>handleSocialPress(user?.youtubeUrl)} style={styles.socialIcon}>
                             <AntDesign name="youtube" size={20} />
                         </TouchableOpacity>
                     }
