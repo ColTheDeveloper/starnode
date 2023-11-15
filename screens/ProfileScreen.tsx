@@ -36,7 +36,7 @@ const ProfileScreen=({navigation}:navigateProps)=>{
                 <ProfileMenu 
                     iconName="edit"
                     name="Write blog"
-                    handleClick={()=>navigation.navigate("writeBlog")}
+                    handleClick={()=>navigation.navigate("Write Blog")}
                 />
                 <Hr />
                 <ProfileMenu 

@@ -20,10 +20,6 @@ const SearchScreen=()=>{
 
 export default SearchScreen
 
-// type Style={
-//     inputContainer:ViewStyle,
-
-// }
 
 const styles=StyleSheet.create({
     container:{

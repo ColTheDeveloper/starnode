@@ -3,6 +3,8 @@ import Home from "../screens/Home"
 import ProfileScreen from "../screens/ProfileScreen"
 import UserScreen from "../screens/profileScreens/userScreen"
 import ProfileEdit from "../screens/profileScreens/profileEdit"
+import WriteBlog from "../screens/WriteBlog"
+import WriteBlogHeader from "../components/WriteBlogHeader"
 
 const Stack= createNativeStackNavigator()
 
@@ -12,6 +14,7 @@ const ProfileStack=()=>{
             <Stack.Screen name='Profile' component={ProfileScreen} />
             <Stack.Screen name='User' component={UserScreen} options={{headerTitle:""}}/>
             <Stack.Screen name='Edit Profile' component={ProfileEdit} />
+            <Stack.Screen name='Write Blog' component={WriteBlog}  options={{headerShown:false}}/>
         </Stack.Navigator>
     )
 }

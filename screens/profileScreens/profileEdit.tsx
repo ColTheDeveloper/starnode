@@ -182,7 +182,7 @@ const ProfileEdit=({navigation}:navigationProps)=>{
                             <Text style={styles.label}>Full name</Text>
                             <View style={styles.inputStyle2}>
                                 <TextInput 
-                                    value={user?.about}
+                                    value={about}
                                     multiline={true}
                                     numberOfLines={5}
                                     onChangeText={(value)=>setAbout(value)}
