@@ -42,19 +42,19 @@ const ProfileScreen=({navigation}:navigateProps)=>{
                 <ProfileMenu 
                     iconName="addfile"
                     name="My blogs"
-                    handleClick={()=>navigation.navigate("My blogs")}
+                    handleClick={()=>navigation.navigate("My Blogs")}
                 />
                 <Hr />
                 <ProfileMenu 
                     iconName="clockcircleo"
                     name="My recent history"
-                    handleClick={()=>navigation.navigate("My blogs")}
+                    handleClick={()=>navigation.navigate("My History")}
                 />
                 <Hr />
                 <ProfileMenu 
                     iconName="setting"
                     name="About"
-                    handleClick={()=>navigation.navigate("My blogs")}
+                    handleClick={()=>navigation.navigate("About")}
                 />
 
             </View>
