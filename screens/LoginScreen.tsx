@@ -24,7 +24,7 @@ const LoginScreen=({navigation}:loginprops)=>{
         const signinRequest={
             query:`
                 query{
-                    signin(email:"${email}" password:"${password}"){
+                    signin(email:"${email.trim()}" password:"${password}"){
                         user{
                             _id
                             email

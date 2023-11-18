@@ -173,6 +173,7 @@ const WriteBlog=({navigation}:navigationProps)=>{
                     "authorization":"Bearer "+token
                 }
             }).then(res=>{
+                console.log(res.body)
                 if(res.status !==200 && res.status !==201){
                     throw new Error("Failed") 
                 }

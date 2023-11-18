@@ -26,7 +26,7 @@ const RegisterScreen=({navigation}:signupProps)=>{
         const signupRequest={
             query:`
                 mutation{
-                    signup(signupInput:{email:"${email}" fullName:"${fullName}" password:"${password}" username:"${username}"}){
+                    signup(signupInput:{email:"${email.trim()}" fullName:"${fullName}" password:"${password}" username:"${username.trim()}"}){
                         user{
                             _id
                             email
