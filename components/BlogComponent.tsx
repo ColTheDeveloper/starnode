@@ -1,39 +1,44 @@
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Image, StyleSheet, Text, Touchable, TouchableWithoutFeedback, View } from "react-native"
 import AntDesign from "@expo/vector-icons/AntDesign"
 import { WebView } from 'react-native-webview';
 
-const BlogComponent=({data}:any)=>{
+const BlogComponent=({data,navigation}:any)=>{
     return(
         <View style={styles.container}>
-            <View style={styles.authorDetailsContainer}>
-                <Image 
-                    source={{uri:data.author.profilePics}}
-                    style={styles.authorImageStyle}
-                />
-                <View>
-                    <Text style={styles.authorName}>{data.author.fullName}</Text>
-                    <Text style={styles.blogCreatedDate}>{data.createdAt}</Text>
-                </View>
-            </View>
-            <View style={styles.blogDetailsContainer}>
-                <Text style={styles.titleStyle}>{data.title}</Text>
-                <View style={styles.innerBlogDetailsContainer} >
-                    <Text style={styles.usernameStyle}>{data.author.username}</Text>
-                    <View style={styles.dotStyle}></View>
-                    <View style={styles.viewStyle}>
-                        <AntDesign name="linechart" size={10} color={"grey"}/>
-                        <Text style={styles.usernameStyle}>{data.views} views</Text>
+            <TouchableWithoutFeedback onPress={()=>navigation.navigate("User",{userId:data.author._id})}>
+                <View style={styles.authorDetailsContainer}>
+                    <Image 
+                        source={{uri:data.author.profilePics}}
+                        style={styles.authorImageStyle}
+                    />
+                    <View>
+                        <Text style={styles.authorName}>{data.author.fullName}</Text>
+                        <Text style={styles.blogCreatedDate}>{data.createdAt}</Text>
                     </View>
+
                 </View>
-                {/* <WebView
-                    source={{html: data.content}} 
-                    style={{width:"100%",height:200}}
-                /> */}
-                <Image 
-                    source={{uri:data.blogImgUrl}}
-                    style={styles.blogImgStyle}
-                />
-            </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={()=>navigation.navigate("Blog",{blogId:data._id})}>
+                <View style={styles.blogDetailsContainer}>
+                    <Text style={styles.titleStyle}>{data.title}</Text>
+                    <View style={styles.innerBlogDetailsContainer} >
+                        <Text style={styles.usernameStyle}>{data.author.username}</Text>
+                        <View style={styles.dotStyle}></View>
+                        <View style={styles.viewStyle}>
+                            <AntDesign name="linechart" size={10} color={"grey"}/>
+                            <Text style={styles.usernameStyle}>{data.views} views</Text>
+                        </View>
+                    </View>
+                    {/* <WebView
+                        source={{html: data.content}} 
+                        style={{width:"100%",height:200}}
+                    /> */}
+                    <Image 
+                        source={{uri:data.blogImgUrl}}
+                        style={styles.blogImgStyle}
+                    />
+                </View>
+            </TouchableWithoutFeedback>
             <View style={styles.hr}></View>
         </View>
     )
@@ -60,12 +65,14 @@ const styles=StyleSheet.create({
     },
     authorName:{
         fontFamily:"poppins-bold",
-        fontSize:20
+        fontSize:20,
+        padding:0
     },
     blogCreatedDate:{
         color:"grey",
         fontFamily:"poppins",
-        lineHeight:14
+        padding:0
+        
     },
     blogDetailsContainer:{
         paddingHorizontal:15,

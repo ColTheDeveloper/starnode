@@ -2,15 +2,18 @@ import { FlatList, Image, StyleSheet, Text, View } from "react-native"
 import ContentLoading from "../components/contentLoading";
 import BlogComponent from "../components/BlogComponent";
 import ListEndComponent from "../components/ListEndComponent";
+import { useNavigation } from "@react-navigation/native";
 
 type Props={
     blogData:any,
     isLoading:boolean,
-    searchQuery:string
+    searchQuery:string,
+    
 }
 
 const TopSearchResult=({blogData,isLoading,searchQuery}:Props)=>{
     const blogs=blogData.sort((a:any,b:any)=>a.views-b.views)
+    const navigation=useNavigation()
     return(
         <>
         {searchQuery.length<4?
@@ -40,7 +43,7 @@ const TopSearchResult=({blogData,isLoading,searchQuery}:Props)=>{
                     <View style={styles.mainContainer}>
                         <FlatList
                             data={blogs}
-                            renderItem={({item})=><BlogComponent data={item} />}
+                            renderItem={({item})=><BlogComponent data={item} navigation={navigation} />}
                             ListFooterComponent={<ListEndComponent />}
                         />
                     </View>

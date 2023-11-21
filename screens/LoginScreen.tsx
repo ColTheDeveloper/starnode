@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { useContext, useState } from "react"
-import { Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../context/AuthContext";
 
@@ -24,7 +24,7 @@ const LoginScreen=({navigation}:loginprops)=>{
         const signinRequest={
             query:`
                 query{
-                    signin(email:"${email.trim()}" password:"${password}"){
+                    signin(email:"${email}" password:"${password}"){
                         user{
                             _id
                             email
@@ -61,6 +61,7 @@ const LoginScreen=({navigation}:loginprops)=>{
             AuthState?.setUser(resData.data.signin.user)
             AsyncStorage.setItem('token',resData.data.signin.token)
             AsyncStorage.setItem('user',JSON.stringify(resData.data.signin.user))
+            setIsLoading(false)
         }).catch(e=>{
             console.log(e.message)
         })
@@ -93,7 +94,13 @@ const LoginScreen=({navigation}:loginprops)=>{
                     secureTextEntry
                 />
                 <TouchableOpacity onPress={()=>handleSignin()}>
-                    <Text style={styles.button}>Sign in</Text>
+                    {isLoading?
+                        <View style={styles.button}>
+                            <ActivityIndicator color={"white"} />
+                        </View>
+                    :
+                        <Text style={styles.button}>Sign in</Text>
+                    }
                 </TouchableOpacity>
             </View>
             <View style={styles.googleMainContainer}>

@@ -87,8 +87,8 @@ const SearchScreen=()=>{
             </View>
             <View style={styles.tab}>
                 <Tab.Navigator>
-                    <Tab.Screen name="Top" >{(props)=><TopSearchResult {...props} blogData={blogs} isLoading={isLoading} searchQuery={searchQuery} />}</Tab.Screen>
-                    <Tab.Screen name="Latest">{(props)=><LatestSearchResult {...props} blogData={blogs} isLoading={isLoading} searchQuery={searchQuery} />}</Tab.Screen>
+                    <Tab.Screen name="Top" >{(props)=><TopSearchResult {...props} blogData={blogs}  isLoading={isLoading} searchQuery={searchQuery} />}</Tab.Screen>
+                    <Tab.Screen name="Latest">{(props)=><LatestSearchResult {...props} blogData={blogs}  isLoading={isLoading} searchQuery={searchQuery} />}</Tab.Screen>
                     <Tab.Screen name="Author" >{(props)=><AuthorSearchResult {...props} searchQuery={searchQuery} />}</Tab.Screen>
                 </Tab.Navigator>
             </View>

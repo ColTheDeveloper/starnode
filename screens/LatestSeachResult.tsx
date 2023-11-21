@@ -6,10 +6,13 @@ import ListEndComponent from "../components/ListEndComponent"
 type Props={
     blogData:any,
     isLoading:boolean,
-    searchQuery:string
+    searchQuery:string,
+    navigation:{
+        navigate:(value:string)=>{}
+    }
 }
 
-const LatestSearchResult=({blogData,isLoading,searchQuery}:Props)=>{
+const LatestSearchResult=({blogData,isLoading,searchQuery,navigation}:Props)=>{
     return(
         <>
         {searchQuery.length<4?
